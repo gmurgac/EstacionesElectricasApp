@@ -4,15 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{88331A6A-3CFC-4FA8-A8C6-E758367BC629}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{AD6B9FC3-8E75-49AB-AE66-F0EF582181F4}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EstacionesModel</RootNamespace>
-    <AssemblyName>EstacionesModel</AssemblyName>
+    <RootNamespace>MedidoresClienteApp</RootNamespace>
+    <AssemblyName>MedidoresClienteApp</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +24,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -31,6 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -40,25 +44,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DAL\IMedicionesDAL.cs" />
-    <Compile Include="DAL\IMedidoresDAL.cs" />
-    <Compile Include="DAL\MedicionesDALArchivos.cs" />
-    <Compile Include="DAL\MedicionesDALFactory.cs" />
-    <Compile Include="DAL\MedidoresDAL.cs" />
-    <Compile Include="DAL\MedidoresDALFactory.cs" />
-    <Compile Include="DTO\Administrador.cs" />
-    <Compile Include="DTO\EstacionDeCarga.cs" />
-    <Compile Include="DTO\Medicion.cs" />
-    <Compile Include="DTO\Medidor.cs" />
-    <Compile Include="DTO\MedidorConsumo.cs" />
-    <Compile Include="DTO\MedidorTrafico.cs" />
-    <Compile Include="DTO\Monitor.cs" />
-    <Compile Include="DTO\PuntoDeCarga.cs" />
-    <Compile Include="DTO\Region.cs" />
-    <Compile Include="DTO\TarifaElectrica.cs" />
+    <Compile Include="Comunicacion\ClienteSocket.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\Mensajero\Mensajero\MensajeroApp\SocketsUtils\SocketsUtils.csproj">
+      <Project>{F657081D-6E05-4950-B367-CF99D6DC44D6}</Project>
+      <Name>SocketsUtils</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

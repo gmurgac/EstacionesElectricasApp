@@ -8,7 +8,7 @@ namespace EstacionesModel.DTO
 {
     public class MedidorConsumo : Medidor
     {
-        public MedidorConsumo(int id, DateTime fechaInstalacion) : base(id, fechaInstalacion)
+        public MedidorConsumo(int id, DateTime fechaInstalacion, string tipo) : base(id, fechaInstalacion, tipo)
         {
         }
     }

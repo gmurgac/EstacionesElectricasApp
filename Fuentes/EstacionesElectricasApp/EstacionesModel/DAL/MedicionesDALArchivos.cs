@@ -32,43 +32,71 @@ namespace EstacionesModel.DAL
             
         }
 
-        public List<Medicion> ObtenerLecturasConsumo()
-        {
-            throw new NotImplementedException();
-        }
+        //public List<Medicion> ObtenerLecturasConsumo()
+        //{
+        //    List<Medicion> lista = new List<Medicion>();
 
-        public List<Medicion> ObtenerLecturasTrafico()
-        {
-            List<Medicion> lista = new List<Medicion>();
+        //    try
+        //    {
+        //        using (StreamReader reader = new StreamReader(archivo2))
+        //        {
+        //            string lineaTexto = null;
+        //            do
+        //            {
+        //                if (lineaTexto != null)
+        //                {
+        //                    string[] textoArray = lineaTexto.Split(':');
+        //                    Medicion m = new Medicion()
+        //                    {
+        //                        Id = Convert.ToInt32(textoArray[0]),
+        //                        Fecha = Convert.ToDateTime(textoArray[1]),
+        //                        Tipo = Convert.ToInt32(textoArray[2]),
+        //                        Valor = textoArray[3]
 
-            try {
-                using (StreamReader reader = new StreamReader(archivo))
-                {
-                    string lineaTexto = null;
-                    do
-                    {
-                        if(lineaTexto != null)
-                        {
-                            string[] textoArray = lineaTexto.Split('|');
-                            Medicion m = new Medicion()
-                            {
-                                Id = Convert.ToInt32(textoArray[0]),
-                                Fecha = Convert.ToDateTime(textoArray[1]),
-                                Tipo = Convert.ToInt32(textoArray[2]),
-                                Valor = textoArray[3]
+        //                    };
+        //                }
+        //            } while (lineaTexto != null);
+        //        }
+        //    }
+        //    catch (IOException ex)
+        //    {
+        //        lista = null;
+        //    }
+        //    return lista;
+        //}
 
-                            };
-                        }
-                    } while (lineaTexto != null);
-                }
-            }
-            catch(IOException ex) {
-                lista = null;
-            }
-            return lista;
-        }
+        //public List<Medicion> ObtenerLecturasTrafico()
+        //{
+        //    List<Medicion> lista = new List<Medicion>();
 
-        public void RegistrarLectura(Medicion m)
+        //    try {
+        //        using (StreamReader reader = new StreamReader(archivo))
+        //        {
+        //            string lineaTexto = null;
+        //            do
+        //            {
+        //                if(lineaTexto != null)
+        //                {
+        //                    string[] textoArray = lineaTexto.Split('|');
+        //                    Medicion m = new Medicion()
+        //                    {
+        //                        Id = Convert.ToInt32(textoArray[0]),
+        //                        Fecha = Convert.ToDateTime(textoArray[1]),
+        //                        Tipo = Convert.ToInt32(textoArray[2]),
+        //                        Valor = textoArray[3]
+
+        //                    };
+        //                }
+        //            } while (lineaTexto != null);
+        //        }
+        //    }
+        //    catch(IOException ex) {
+        //        lista = null;
+        //    }
+        //    return lista;
+        //}
+
+        public void RegistrarConsumo(Medicion m)
         {
             try
             {
@@ -81,6 +109,37 @@ namespace EstacionesModel.DAL
             {
 
             }
+        }
+        public void RegistrarTrafico(Medicion m)
+        {
+            try
+            {
+                using (StreamWriter writer = new StreamWriter(archivo2, true))
+                {
+                    writer.WriteLine(m);
+                    writer.Flush();
+                }
+            }
+            catch (IOException ex)
+            {
+
+            }
+        }
+
+        public void RegistrarLectura(Medicion m)
+        {
+            //COLOCAR AQUI IF, SI m es de tipo trafico realiazr registro trafico sino .... etc
+            throw new NotImplementedException();
+        }
+
+        public List<Medicion> ObtenerLecturasTrafico()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Medicion> ObtenerLecturasConsumo()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -8,13 +8,15 @@ namespace EstacionesModel.DTO
 {
     public class Medidor
     {
-        private int id;
-        private DateTime fechaInstalacion;
+        protected int id;
+        protected DateTime fechaInstalacion;
+        protected string tipo;
 
-        public Medidor(int id, DateTime fechaInstalacion)
+        public Medidor(int id, DateTime fechaInstalacion, string tipo)
         {
             this.id = id;
             this.fechaInstalacion = fechaInstalacion;
+            this.Tipo = tipo;
         }
 
         protected int Id
@@ -43,7 +45,18 @@ namespace EstacionesModel.DTO
             }
         }
 
+        protected string Tipo
+        {
+            get
+            {
+                return tipo;
+            }
 
+            set
+            {
+                tipo = value;
+            }
+        }
 
         public Boolean EnviarLectura(Medicion medicion)
         {

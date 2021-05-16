@@ -8,12 +8,8 @@ namespace EstacionesModel.DTO
 {
     public class MedidorTrafico : Medidor
     {
-        public MedidorTrafico(int id, DateTime fechaInstalacion) : base(id, fechaInstalacion)
+        public MedidorTrafico(int id, DateTime fechaInstalacion, string tipo) : base(id, fechaInstalacion, tipo)
         {
-        }
-        public int ObtenerCantidadVehiculos()
-        {
-            return 0;
         }
     }
 }
