@@ -10,5 +10,6 @@ namespace EstacionesModel.DAL
     public interface IMedidoresDAL
     {
         List<Medidor> ObtenerMedidores();
+        Boolean EncontrarMedidor(int id, string tipos);
     }
 }

@@ -11,5 +11,6 @@ namespace EstacionesModel.DTO
         public MedidorConsumo(int id, DateTime fechaInstalacion, string tipo) : base(id, fechaInstalacion, tipo)
         {
         }
+
     }
 }

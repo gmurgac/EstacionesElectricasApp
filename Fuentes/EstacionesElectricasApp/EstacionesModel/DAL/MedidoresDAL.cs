@@ -38,5 +38,23 @@ namespace EstacionesModel.DAL
         {
             return listadoMedidores;
         }
+
+        public Boolean EncontrarMedidor(int numeroMedidor, string tipo)
+        {
+
+            if(listadoMedidores.Exists(m => m.Id == numeroMedidor))
+            {
+                if(listadoMedidores.Find(m => m.Id == numeroMedidor).Tipo == tipo)
+                {
+                    return true;
+                }else
+                {
+                    return false;
+                }
+            }else
+            {
+                return false;
+            }
+        }
     }
 }

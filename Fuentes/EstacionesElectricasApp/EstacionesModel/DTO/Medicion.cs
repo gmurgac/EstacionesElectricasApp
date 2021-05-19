@@ -15,7 +15,7 @@ namespace EstacionesModel.DTO
         private int id;
         private DateTime fecha;
         private string tipo;
-        private string valor;  //Agrega
+        private int valor;  //Agrega
         private string unidadDeMedida;
 
         public int Id
@@ -57,7 +57,7 @@ namespace EstacionesModel.DTO
             }
         }
 
-        public string Valor
+        public int Valor
         {
             get
             {

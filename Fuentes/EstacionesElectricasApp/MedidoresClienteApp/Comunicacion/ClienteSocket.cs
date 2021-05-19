@@ -11,9 +11,8 @@ namespace MedidoresClienteApp.Comunicacion
 {
     public class ClienteSocket
     {
-      
-       private int puerto;
         private string ip;
+        private int puerto;
         private Socket comunicacionServidor;
         private StreamReader reader;
         private StreamWriter writer;
@@ -40,6 +39,34 @@ namespace MedidoresClienteApp.Comunicacion
                 return false;
             }
         }
-        
+        public bool Escribir(string mensaje)
+        {
+            try
+            {
+                this.writer.WriteLine(mensaje);
+                this.writer.Flush();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+        public string Leer()
+        {
+            try
+            {
+                return this.reader.ReadLine().Trim();
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        public void Desconectar()
+        {
+            this.comunicacionServidor.Close();
+        }
+
     }
 }

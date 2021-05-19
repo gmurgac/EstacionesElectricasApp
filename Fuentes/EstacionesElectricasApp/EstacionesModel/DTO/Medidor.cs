@@ -19,7 +19,7 @@ namespace EstacionesModel.DTO
             this.Tipo = tipo;
         }
 
-        protected int Id
+       public int Id
         {
             get
             {
@@ -32,7 +32,7 @@ namespace EstacionesModel.DTO
             }
         }
 
-        protected DateTime FechaInstalacion
+        public DateTime FechaInstalacion
         {
             get
             {
@@ -45,7 +45,7 @@ namespace EstacionesModel.DTO
             }
         }
 
-        protected string Tipo
+        public string Tipo
         {
             get
             {
