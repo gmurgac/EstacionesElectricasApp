@@ -12,18 +12,21 @@ namespace EstacionesElectricasApp.Hilos
    public class HiloCliente
     {
         private ClienteSocket clienteSocket;
-        private IMedidoresDAL dal = MedidoresDALFactory.CreateDAL();
-        public HiloCliente(ClienteSocket clienteSocket)
+        private ServerSocket serverSocket;
+        static IMedidoresDAL dal = MedidoresDALFactory.CreateDAL();
+        static IMedicionesDAL dalMediciones = MedicionesDALFactory.CreateDAL();
+        public HiloCliente(ClienteSocket clienteSocket, ServerSocket serverSocket)
         {
             this.clienteSocket = clienteSocket;
+            this.serverSocket = serverSocket;
         }
 
         public void Ejecutar()
         {
             try
             {
-                clienteSocket.Escribir("Ingrese FECHA | NUMERO | TIPO");
-                string lectura1 = clienteSocket.Leer().Trim();
+                serverSocket.Escribir("Ingrese FECHA | NUMERO | TIPO");
+                string lectura1 = serverSocket.Leer().Trim();
                 string[] textoArray = lectura1.Split('|');
                 string[] fechas = textoArray[0].Split('-');
                 try
@@ -47,16 +50,22 @@ namespace EstacionesElectricasApp.Hilos
                         int diferenciaMinutos = (lectura.Fecha - actual).Minutes;
                         if (diferenciaMinutos > 30)
                         {
-                            clienteSocket.Escribir("Paso màs de 30 minuto");
-                            clienteSocket.CerrarConexion();
+                            serverSocket.Escribir("Paso más de 30 minutos");
+                            serverSocket.CerrarConexion();
                         }
                         else
                         {
                             string fechaActual = actual.ToString("yyyy-MM-dd-HH-mm-ss");
                             string respuesta = "" + fechaActual + "|WAIT)";
-                            clienteSocket.Escribir(respuesta);
-                            string lectura2 = clienteSocket.Leer().Trim();
+                            serverSocket.Escribir(respuesta);
+                            string lectura2 = serverSocket.Leer().Trim();
+                            //EVALUAR SI VIENE CON ESTADO O NO
                             string[] textoArray2 = lectura2.Split('|');
+                            int largoLectura = textoArray2.Length;
+                            
+
+
+                            //Convertir fecha
                             string[] fechas2 = textoArray2[1].Split('-');
                             try
                             {
@@ -66,28 +75,83 @@ namespace EstacionesElectricasApp.Hilos
                                 horas = Convert.ToInt32(fechas[3]);
                                 minutos = Convert.ToInt32(fechas[4]);
                                 segundos = Convert.ToInt32(fechas[5]);
-
-                                Medicion lectura3 = new Medicion()
+                                
+                                if (largoLectura == 6)
                                 {
-                                    Fecha = new DateTime(anio, mes, dia, horas
-                                    , minutos, segundos),
-                                    Id = Convert.ToInt32(textoArray2[0]),
-                                    Tipo = textoArray2[2],
-                                    Valor = Convert.ToInt32(textoArray2[3]),
+                                    Medicion lectura3 = new Medicion()
+                                    {
+                                        Fecha = new DateTime(anio, mes, dia, horas, minutos, segundos),
+                                        Id = Convert.ToInt32(textoArray2[0]),
+                                        Tipo = textoArray2[2],
+                                        Valor = Convert.ToInt32(textoArray2[3]),
+                                        Estado = Convert.ToInt32(textoArray2[4])
+                                    };
+                                    if(lectura3.Tipo == "trafico")
+                                    {
+                                        lock (dalMediciones)
+                                        {
+                                            dalMediciones.RegistrarLectura(lectura3);
+                                        }
+                                    }else if(lectura.Tipo == "consumo")
+                                    {
+                                        lock (dalMediciones) { dalMediciones.RegistrarLectura(lectura3); }
+                                        
+                                    }
+                                    else
+                                    {
+                                        serverSocket.Escribir("" + fechaActual + "|" + textoArray2[0] + "|ERROR");
+                                        serverSocket.CerrarConexion();
+                                    }
+                                }
+                                else if (largoLectura == 5)
+                                {
+                                    Medicion lectura3 = new Medicion()
+                                    {
+                                        Fecha = new DateTime(anio, mes, dia, horas, minutos, segundos),
+                                        Id = Convert.ToInt32(textoArray2[0]),
+                                        Tipo = textoArray2[2],
+                                        Valor = Convert.ToInt32(textoArray2[3]),
+                                    };
+                                    if (lectura3.Tipo == "trafico")
+                                    {
+                                        lock (dalMediciones)
+                                        {
+                                            dalMediciones.RegistrarLectura(lectura3);
+                                        }
+                                    }
+                                    else if (lectura.Tipo == "consumo")
+                                    {
+                                        lock (dalMediciones) { dalMediciones.RegistrarLectura(lectura3); }
+                                        
+                                    }
+                                    else
+                                    {
+                                        serverSocket.Escribir("" + fechaActual + "|" + textoArray2[0] + "|ERROR");
+                                        serverSocket.CerrarConexion();
+                                    }
+                                }
+                                else
+                                {
+                                    serverSocket.Escribir("" + fechaActual + "|" + textoArray2[0] + "|ERROR");
+                                    serverSocket.CerrarConexion();
+                                }
+                                
 
-                                };
+                                
+
                             }
                             catch (Exception ex)
                             {
-
+                                Console.WriteLine(ex);
+                                serverSocket.Escribir("" + fechaActual + "|" + textoArray2[0] + "|ERROR");
                             }
 
                         }
                     }
                     else
                     {
-                        clienteSocket.Escribir("Medidor no registrado o no coincide tipo");
-                        clienteSocket.CerrarConexion();
+                        serverSocket.Escribir("Medidor no registrado o no coincide tipo");
+                        serverSocket.CerrarConexion();
                     }
 
 

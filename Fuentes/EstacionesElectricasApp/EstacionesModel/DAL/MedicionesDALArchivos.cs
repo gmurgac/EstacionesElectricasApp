@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using EstacionesModel.DTO;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace EstacionesModel.DAL
 {
@@ -16,6 +17,7 @@ namespace EstacionesModel.DAL
             + Path.DirectorySeparatorChar + "trafico.txt";
         private string archivo2 = Directory.GetCurrentDirectory()
             + Path.DirectorySeparatorChar + "consumo.txt";
+        
 
         private MedicionesDALArchivos()
         {
@@ -129,8 +131,43 @@ namespace EstacionesModel.DAL
         public void RegistrarLectura(Medicion m)
         {
             //COLOCAR AQUI IF, SI m es de tipo trafico realiazr registro trafico sino .... etc
-            throw new NotImplementedException();
+            if(m.Tipo == "trafico")
+            {
+                try
+                {
+                    using (StreamWriter writer = new StreamWriter(archivo, true))
+                    {
+                        writer.WriteLine(JsonConvert.SerializeObject(m));
+                        writer.Flush();
+                    }
+                }
+                catch (IOException ex)
+                {
+
+                }
+            }else if(m.Tipo == "consumo")
+            {
+                try
+                {
+                    using (StreamWriter writer = new StreamWriter(archivo2, true))
+                    {
+
+                        writer.WriteLine(JsonConvert.SerializeObject(m));
+                        writer.Flush();
+                    }
+                }
+                catch (IOException ex)
+                {
+
+                }
+            }
+            else
+            {
+                Console.WriteLine("Error en el parametro");
+            }
+            
         }
+      
 
         public List<Medicion> ObtenerLecturasTrafico()
         {

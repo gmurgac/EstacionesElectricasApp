@@ -16,7 +16,6 @@ namespace EstacionesElectricasApp
             return true;
         }
 
-        static IMedidoresDAL dalMedidores = MedidoresDALFactory.CreateDAL();
-        static IMedicionesDAL dalMediciones = MedicionesDALFactory.CreateDAL();
+        
     }
 }

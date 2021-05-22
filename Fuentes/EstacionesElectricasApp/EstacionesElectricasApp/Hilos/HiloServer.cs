@@ -28,12 +28,16 @@ namespace EstacionesElectricasApp.Hilos
                 {
                     Console.WriteLine("Esperando Clientes....");
                     ClienteSocket cliente = this.server.ObtenerCliente();
-                    //Crear una instancia del hilo del Cliente
-                    Console.WriteLine("Se conectò un cliente");
-                    HiloCliente hiloCliente = new HiloCliente(cliente);
-                    Thread t = new Thread(new ThreadStart(hiloCliente.Ejecutar));
-                    t.IsBackground = false;
-                    t.Start();
+                    if(cliente != null)
+                    {  //Crear una instancia del hilo del Cliente
+
+                        Console.WriteLine("Se conectò un cliente");
+                        HiloCliente hiloCliente = new HiloCliente(cliente, server);
+                        Thread t = new Thread(new ThreadStart(hiloCliente.Ejecutar));
+                        t.IsBackground = false;
+                        t.Start();
+                    }
+                   
                 }
             }
         }

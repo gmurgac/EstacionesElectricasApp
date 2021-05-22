@@ -13,13 +13,14 @@ namespace EstacionesElectricasApp
     {
         public static void Main(string[] args)
         {
+
             Console.WriteLine("Iniciando hilo del Server");
             int puerto = Convert.ToInt32(ConfigurationManager.AppSettings["puerto"]);
             HiloServer hiloServer = new HiloServer(puerto);
             Thread t = new Thread(new ThreadStart(hiloServer.Ejecutar));
             t.IsBackground = true;
             t.Start();
-            while (Menu()) ;
+            while (true) ;
         }
     }
 }

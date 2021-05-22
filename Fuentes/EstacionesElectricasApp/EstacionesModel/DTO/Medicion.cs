@@ -17,6 +17,14 @@ namespace EstacionesModel.DTO
         private string tipo;
         private int valor;  //Agrega
         private string unidadDeMedida;
+        private int estado;
+
+        public override string ToString()
+        {
+            //return ""+this.nombre+";"+this.detalle+";"+this.tipo;
+            string JsonToString = "{\"Fecha\":\"" + this.fecha + "\",\"Tipo\":\"" + this.tipo + "\",\"Valor\":\"" + this.valor + "\"}";
+            return JsonToString;
+        }
 
         public int Id
         {
@@ -80,6 +88,19 @@ namespace EstacionesModel.DTO
             set
             {
                 unidadDeMedida = value;
+            }
+        }
+
+        public int Estado
+        {
+            get
+            {
+                return estado;
+            }
+
+            set
+            {
+                estado = value;
             }
         }
     }
